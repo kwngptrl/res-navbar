@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Test</title>
+
+    <style>
+        @import url(./reset.css);
+        @font-face {
+            font-family: 'Inter';
+            src: url('../news-homepage-main/assets/fonts/Inter-VariableFont_slnt\,wght.ttf') format('truetype');
+            font-weight: 100 1000;
+            font-display: block;    /* briefly hide the text until the font has fully downloaded */
+        }
+
+        .inter-regular {
+            font-family: 'Inter';
+            font-variation-settings: 'wght' 400, 'wdth' 100;
+        }
+
+        .inter-bold {
+            font-family: 'Inter';
+            font-variation-settings: 'wght' 700;
+        }
+
+        .inter-extra-bold {
+            font-family: 'Inter';
+            font-variation-settings: 'wght' 800;
+        }
+
+        * {
+            outline: 1px red solid;
+            /* animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important; */
+        }
+        :root {
+            /* primary */
+            --primary-soft-orange: hsl(35, 77%, 62%);
+            --primary-soft-red: hsl(5, 85%, 63%);
+
+            /* neutral */
+            --neutral-off-white: hsl(36, 100%, 99%);
+            --neutral-grayish-blue: hsl(233, 8%, 79%);
+            --neutral-dark-grayish-blue: hsl(236, 13%, 42%);
+            --neutral-very-dark-blue: hsl(240, 100%, 5%);
+
+            /* font body-copy */
+            --fs-body-copy: 15px;
+        }
+
+        html {
+            font-size: var(--fs-body-copy);
+        }
+
+        body {            
+            font-family: 'Inter';
+
+            /* display: flex;
+            flex-direction: column;
+            align-items: center; */
+            /* justify-content: center; */
+            /* min-height: 100vh; */
+            /* display: grid; */
+            /* align-content: center;
+            justify-content: center; */
+            /* grid-template-rows: auto 1fr auto; */
+            /* gap: 1rem; */
+            
+        }
+        /* from: https://www.scottohara.me/blog/2017/04/14/inclusively-hidden.html */
+        .sr-only:not(:focus):not(:active) {
+            clip: rect(0 0 0 0); 
+            clip-path: inset(50%);
+            height: 1px;
+            overflow: hidden;
+            position: absolute;
+            white-space: nowrap; 
+            width: 1px;
+        }
+        
+        button {
+            /* reset for button */
+            display: inline-block;
+            border: none;
+            padding: 0;
+            margin: 0;
+            text-decoration: none;
+            background: none;
+        }
+        
+        .masthead {
+            margin-block: 1rem;
+            /* margin: 0 auto; */
+            /* contains logo and navbar */
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            padding: 0;
+        }
+
+        .navigation-container {
+            display: flex;
+            --gap: clamp(1.5rem, 5vw, 3.5rem);
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        @media screen and (max-width: 767px) {
+            .navigation-container {
+                position: fixed;
+                z-index: 1000;
+                inset: 0 0 0 30%;
+                padding: min(20rem, 15vh) 2rem;
+                margin: 0;
+                flex-direction: column;
+                transform: translateX(100%);
+                transition: all 500ms ease-in-out;
+                background-color: chartreuse;
+            }
+        }
+
+        
+        
+        .navigation-container[data-visible="true"] {
+            transform: translateX(0);
+        }
+
+        .navigation-container > li {
+            padding: .6rem 1rem;
+        }
+
+        .navigation-container > .active {
+           border: 0;
+        }
+
+        .navigation-container > *:hover {
+            background-color: var(--neutral-dark-grayish-blue);
+            color: var(--neutral-off-white);
+            cursor: pointer;
+        }
+
+        .mobile-nav-toggle {
+            display: block;
+            position: absolute;
+            z-index: 2000;
+            right: 1rem;
+            top: 1.5rem;
+            background: transparent;
+            background-image: url('../news-homepage-main/assets/images/icon-menu.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 1.5rem;
+            aspect-ratio: 1;
+            border: 0;
+            transition: transform 500ms ease-in-out;
+        }
+
+        .mobile-nav-toggle[aria-expanded="true"]{
+            transform: rotate(1turn);
+            /* transition: transform 500ms ease-in-out; */
+            background-image: url('../news-homepage-main/assets/images/icon-menu-close.svg');
+        }
+        
+        .mobile-nav-toggle:focus-visible {
+            outline: 5px solid white;
+            outline-offset: 5px;
+        }
+
+
+        @media (min-width: 768px) {
+            .primary-navigation {
+                padding-inline: clamp(3rem, 7vw, 7rem);
+            }
+        }
+
+        .middle {
+            height: 70vh;
+            background-color: chartreuse;
+        }
+
+        footer {
+            background-color: cornflowerblue;
+        }
+
+        .middle, footer {
+            text-align: center;
+        }
+
+        @media screen and (min-width: 768px) {
+            .navigation-container {
+                flex-direction: row;
+                gap: var(--gap, 1rem);
+                /* align-items: center; */
+                /* margin: 10px; */
+            }
+            .mobile-nav-toggle {
+                display: none;
+            }
+            
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="masthead">
+        <header>
+          <img class="logo" src="../news-homepage-main/assets/images/logo.svg" alt="">
+        </header>
+        <nav>
+          <button class="mobile-nav-toggle" aria-controls="primary-navigation"  aria-expanded="false" aria-label="menu">
+            <!-- In KP's github repo the 'aria-expanded="false"' is within the span, that's why the x icon's not showing properly -->
+            <!-- <span class="sr-only">Menu</span> -->
+            <!-- img will be in css as background-image -->
+            <!-- <img src="../news-homepage-main/assets/images/icon-menu.svg" alt="menu" aria-controls="navigation-container" aria-expanded="false" > -->
+          </button>
+          <ul id="primary-navigation" data-visible="false" class="navigation-container">
+            <li class="active"><a href="#"></a>Home</li>
+            <li><a href="#"></a>New</li>
+            <li><a href="#"></a>Popular</li>
+            <li><a href="#"></a>Trending</li>
+            <li><a href="#"></a>Categories</li>          
+          </ul>
+        </nav>  
+    </div>
+    <!-- <div class="middle">This is the middle</div>
+    <footer>This is the footer</footer> -->
+    <script>
+        const nav = document.querySelector(".navigation-container");
+        const navToggle = document.querySelector(".mobile-nav-toggle");
+        console.log(nav);
+        navToggle.addEventListener("click", () => {
+            
+            const visibility = nav.getAttribute("data-visible");
+            if (visibility === "false") {
+                nav.setAttribute("data-visible", true);
+                navToggle.setAttribute("aria-expanded", true);
+            } else {
+                nav.setAttribute("data-visible", false);
+                navToggle.setAttribute("aria-expanded", false);
+            }
+        })
+    </script>
+</body>
+</html>
